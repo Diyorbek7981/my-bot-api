@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from .models import AboutMeModel, ResumeModel, ContactModel
-from .serializers import AboutMeModelSerializer, ResumeSerializer, ContactSerializer
+from .models import AboutMeModel, ResumeModel, ContactModel, KurslarModel
+from .serializers import AboutMeModelSerializer, ResumeSerializer, ContactSerializer, KurslarSerializer
 from rest_framework import generics, permissions
 
 
@@ -21,4 +21,10 @@ class ResumeView(generics.ListAPIView):
 class ContactView(generics.ListAPIView):
     queryset = ContactModel.objects.all()
     serializer_class = ContactSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class KurslarView(generics.ListAPIView):
+    queryset = KurslarModel.objects.all()
+    serializer_class = KurslarSerializer
     permission_classes = [permissions.AllowAny]

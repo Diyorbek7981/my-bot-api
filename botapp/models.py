@@ -61,3 +61,20 @@ class ContactModel(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class KurslarModel(models.Model):
+    first = models.CharField(max_length=120)
+    photo = models.ImageField(upload_to='kurs/', null=True, blank=True,
+                              validators=[
+                                  FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png'])])
+    dec_found = models.TextField()
+    dec_tel_bot = models.TextField()
+    dec_py_back = models.TextField()
+
+    @property
+    def image_path(self):
+        return self.photo.path
+
+    def __str__(self):
+        return self.first

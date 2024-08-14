@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import AboutMeModel, ResumeModel, ContactModel
+from .models import AboutMeModel, ResumeModel, ContactModel, KurslarModel
 
 
 class AboutMeModelSerializer(serializers.ModelSerializer):
@@ -24,3 +24,11 @@ class ContactSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContactModel
         fields = '__all__'
+
+
+class KurslarSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = KurslarModel
+        fields = '__all__'
+
+    photo = serializers.CharField(source='image_path')
