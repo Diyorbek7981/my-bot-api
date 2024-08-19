@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from .models import AboutMeModel, ResumeModel, ContactModel, KurslarModel
-from .serializers import AboutMeModelSerializer, ResumeSerializer, ContactSerializer, KurslarSerializer
+from .models import AboutMeModel, ResumeModel, ContactModel, CoursesModel, CourseFileModel
+from .serializers import AboutMeModelSerializer, ResumeSerializer, ContactSerializer, KurslarSerializer, \
+    CourseFileSerializer
 from rest_framework import generics, permissions
 
 
@@ -25,6 +26,30 @@ class ContactView(generics.ListAPIView):
 
 
 class KurslarView(generics.ListAPIView):
-    queryset = KurslarModel.objects.all()
+    queryset = CoursesModel.objects.filter(name__icontains='About')
     serializer_class = KurslarSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class FoundationView(generics.ListAPIView):
+    queryset = CoursesModel.objects.filter(name__icontains='Foundation')
+    serializer_class = KurslarSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class TgBotView(generics.ListAPIView):
+    queryset = CoursesModel.objects.filter(name__icontains='TgBot')
+    serializer_class = KurslarSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class PyBackView(generics.ListAPIView):
+    queryset = CoursesModel.objects.filter(name__icontains='PyBack')
+    serializer_class = KurslarSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class MisollarView(generics.ListAPIView):
+    queryset = CourseFileModel.objects.filter(name__name='Foundation')
+    serializer_class = CourseFileSerializer
     permission_classes = [permissions.AllowAny]
