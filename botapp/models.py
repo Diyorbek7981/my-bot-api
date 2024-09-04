@@ -25,26 +25,24 @@ class AboutMeModel(BaseModel):
         return self.photo.path
 
 
-class ResumeModel(BaseModel):
+class ResumeListModel(BaseModel):
+    id_name = models.CharField(max_length=120, unique=True)
     name = models.CharField(max_length=120)
-    cv = models.FileField(upload_to='file/', null=True, blank=True)
-    resume_eng = models.FileField(upload_to='file/', null=True, blank=True)
-    resume_ru = models.FileField(upload_to='file/', null=True, blank=True)
-
-    @property
-    def cv_path(self):
-        return self.cv.path
-
-    @property
-    def resume_eng_path(self):
-        return self.resume_eng.path
-
-    @property
-    def resume_ru_path(self):
-        return self.resume_ru.path
 
     def __str__(self):
         return self.name
+
+
+class ResumeModel(BaseModel):
+    name = models.ForeignKey(ResumeListModel, on_delete=models.CASCADE)
+    file = models.FileField(upload_to='file/', null=True, blank=True)
+
+    @property
+    def file_path(self):
+        return self.file.path
+
+    def __str__(self):
+        return self.name.name
 
 
 class ContactModel(BaseModel):
@@ -60,26 +58,33 @@ class ContactModel(BaseModel):
         return self.name
 
 
-class CoursesModel(BaseModel):
-    name = models.CharField(max_length=120, )
-    title = models.CharField(max_length=120)
+class CourseListModel(BaseModel):
+    id_name = models.CharField(max_length=120, unique=True)
+    name = models.CharField(max_length=120)
+
+    def __str__(self):
+        return self.name
+
+
+class CourseModel(BaseModel):
+    name = models.ForeignKey(CourseListModel, on_delete=models.CASCADE)
     photo = models.ImageField(upload_to='kurs/',
                               validators=[
                                   FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png'])])
-    dec_1 = models.TextField(null=True, blank=True)
-    kurs_davomida = models.TextField(null=True, blank=True, )
+    dec_for_course = models.TextField(null=True, blank=True)
+    during_course = models.TextField(null=True, blank=True, )
 
     @property
     def image_path(self):
         return self.photo.path
 
     def __str__(self):
-        return self.name
+        return self.name.name
 
 
 class CourseFileModel(BaseModel):
-    name = models.ForeignKey(CoursesModel, on_delete=models.CASCADE)
-    description = models.CharField(max_length=120, null=True, blank=True)
+    name = models.ForeignKey(CourseListModel, on_delete=models.CASCADE)
+    description = models.CharField(max_length=120, )
     file = models.FileField(upload_to='exam/', null=True, blank=True)
 
     def __str__(self):

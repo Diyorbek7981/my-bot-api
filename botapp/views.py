@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from .models import AboutMeModel, ResumeModel, ContactModel, CoursesModel, CourseFileModel
-from .serializers import AboutMeModelSerializer, ResumeSerializer, ContactSerializer, KurslarSerializer, \
-    CourseFileSerializer
+from .models import AboutMeModel, ResumeModel, ContactModel, CourseModel, CourseFileModel, CourseListModel, \
+    ResumeListModel
+from .serializers import AboutMeModelSerializer, ResumeSerializer, ContactSerializer, CourseFileSerializer, \
+    CourseListSerializer, CourseSerializer, ResumeListSerializer
 from rest_framework import generics, permissions
 
 
@@ -14,8 +15,16 @@ class AboutMeView(generics.ListAPIView):
 
 
 class ResumeView(generics.ListAPIView):
-    queryset = ResumeModel.objects.all()
     serializer_class = ResumeSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+        return ResumeModel.objects.filter(name__id_name__icontains=self.kwargs['name'])
+
+
+class ResumeListView(generics.ListAPIView):
+    queryset = ResumeListModel.objects.all()
+    serializer_class = ResumeListSerializer
     permission_classes = [permissions.AllowAny]
 
 
@@ -25,31 +34,31 @@ class ContactView(generics.ListAPIView):
     permission_classes = [permissions.AllowAny]
 
 
-class KurslarView(generics.ListAPIView):
-    queryset = CoursesModel.objects.filter(name__icontains='About')
-    serializer_class = KurslarSerializer
+class CourseView(generics.ListAPIView):
+    serializer_class = CourseSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+        return CourseModel.objects.filter(name__id_name__icontains=self.kwargs['name'])
+
+
+class CourseListView(generics.ListAPIView):
+    queryset = CourseListModel.objects.all()
+    serializer_class = CourseListSerializer
     permission_classes = [permissions.AllowAny]
 
 
-class FoundationView(generics.ListAPIView):
-    queryset = CoursesModel.objects.filter(name__icontains='Foundation')
-    serializer_class = KurslarSerializer
-    permission_classes = [permissions.AllowAny]
-
-
-class TgBotView(generics.ListAPIView):
-    queryset = CoursesModel.objects.filter(name__icontains='TgBot')
-    serializer_class = KurslarSerializer
-    permission_classes = [permissions.AllowAny]
-
-
-class PyBackView(generics.ListAPIView):
-    queryset = CoursesModel.objects.filter(name__icontains='PyBack')
-    serializer_class = KurslarSerializer
-    permission_classes = [permissions.AllowAny]
-
-
-class MisollarView(generics.ListAPIView):
-    queryset = CourseFileModel.objects.filter(name__name='Foundation')
+class CourseFileView(generics.ListAPIView):
     serializer_class = CourseFileSerializer
     permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+        return CourseFileModel.objects.filter(name__id_name__icontains=self.kwargs['name'])
+
+
+class CourseFileDetailView(generics.ListAPIView):
+    serializer_class = CourseFileSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+        return CourseFileModel.objects.filter(description=self.kwargs['name'])

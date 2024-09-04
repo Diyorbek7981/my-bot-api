@@ -1,14 +1,14 @@
 from django.urls import path
-from .views import AboutMeView, ResumeView, ContactView, KurslarView, FoundationView, TgBotView, PyBackView, \
-    MisollarView
+from .views import AboutMeView, ResumeView, ContactView, CourseView, CourseListView, ResumeListView, CourseFileView, \
+    CourseFileDetailView
 
 urlpatterns = [
     path('about/', AboutMeView.as_view(), name='about'),
-    path('resume/', ResumeView.as_view(), name='resume'),
+    path('resume/<str:name>', ResumeView.as_view(), name='resume'),
+    path('resume_list/', ResumeListView.as_view(), name='resume_list'),
     path('contact/', ContactView.as_view(), name='contact'),
-    path('kurslar/', KurslarView.as_view(), name='kurslar'),
-    path('foundation/', FoundationView.as_view(), name='foundation'),
-    path('tgbot/', TgBotView.as_view(), name='tgbot'),
-    path('pyback/', PyBackView.as_view(), name='pyback'),
-    path('misollar/', MisollarView.as_view(), name='misollar'),
+    path('course_list/', CourseListView.as_view(), name='course_list'),
+    path('course/<str:name>', CourseView.as_view(), name='course'),
+    path('course_file/<str:name>', CourseFileView.as_view(), name='course_file'),
+    path('course_file_det/<str:name>', CourseFileDetailView.as_view(), name='course_file_detail'),
 ]
