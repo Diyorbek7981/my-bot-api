@@ -4,6 +4,7 @@ from .models import AboutMeModel, ResumeModel, ContactModel, CourseModel, Course
 from .serializers import AboutMeModelSerializer, ResumeSerializer, ContactSerializer, CourseFileSerializer, \
     CourseListSerializer, CourseSerializer, ResumeListSerializer
 from rest_framework import generics, permissions
+from .pagination import CustomPageNumberPagination
 
 
 # Create your views here.
@@ -51,6 +52,7 @@ class CourseListView(generics.ListAPIView):
 class CourseFileView(generics.ListAPIView):
     serializer_class = CourseFileSerializer
     permission_classes = [permissions.AllowAny]
+    pagination_class = CustomPageNumberPagination
 
     def get_queryset(self):
         return CourseFileModel.objects.filter(name__id_name__icontains=self.kwargs['name'])
