@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from .models import AboutMeModel, ResumeModel, ContactModel, CourseModel, CourseFileModel, CourseListModel, \
-    ResumeListModel
+    ResumeListModel, AboutCourseModel
 from .serializers import AboutMeModelSerializer, ResumeSerializer, ContactSerializer, CourseFileSerializer, \
-    CourseListSerializer, CourseSerializer, ResumeListSerializer
+    CourseListSerializer, CourseSerializer, ResumeListSerializer, AboutCourseModelSerializer
 from rest_framework import generics, permissions
 from .pagination import CustomPageNumberPagination
 
@@ -64,3 +64,9 @@ class CourseFileDetailView(generics.ListAPIView):
 
     def get_queryset(self):
         return CourseFileModel.objects.filter(description=self.kwargs['name'])
+
+
+class AboutCourseView(generics.ListAPIView):
+    queryset = AboutCourseModel.objects.all()
+    serializer_class = AboutCourseModelSerializer
+    permission_classes = [permissions.AllowAny]

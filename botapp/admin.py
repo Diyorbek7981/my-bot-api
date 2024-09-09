@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import AboutMeModel, ResumeModel, ContactModel, CourseModel, CourseFileModel, CourseListModel, \
-    ResumeListModel
+    ResumeListModel, ContactListModel, AboutCourseModel
 
 
 # Register your models here.
@@ -29,6 +29,12 @@ class ContactModelAdmin(admin.ModelAdmin):
     list_display_links = ('id', 'name')
 
 
+@admin.register(ContactListModel)
+class ContactListModelAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'link')
+    list_display_links = ('id', 'name', 'link')
+
+
 @admin.register(CourseModel)
 class CourseModelAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
@@ -45,3 +51,9 @@ class CourseListModelAdmin(admin.ModelAdmin):
 class CourseFileModelModelAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'description')
     list_display_links = ('id', 'name', 'description')
+
+
+@admin.register(AboutCourseModel)
+class AboutCourseModelAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title')
+    list_display_links = ('id', 'title')

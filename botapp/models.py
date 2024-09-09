@@ -45,14 +45,18 @@ class ResumeModel(BaseModel):
         return self.name.name
 
 
+class ContactListModel(BaseModel):
+    name = models.CharField(max_length=120)
+    link = models.URLField()
+    confirm = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name
+
+
 class ContactModel(BaseModel):
     name = models.CharField(max_length=120)
-    linkedin = models.URLField(null=True, blank=True)
-    github = models.URLField(null=True, blank=True)
-    telegram = models.URLField(null=True, blank=True)
-    linktee = models.URLField(null=True, blank=True)
-    instagram = models.URLField(null=True, blank=True)
-    facebook = models.URLField(null=True, blank=True)
+    links = models.ManyToManyField(ContactListModel)
 
     def __str__(self):
         return self.name
@@ -93,3 +97,18 @@ class CourseFileModel(BaseModel):
     @property
     def file_path(self):
         return self.file.path
+
+
+class AboutCourseModel(BaseModel):
+    title = models.CharField(max_length=120, )
+    photo = models.ImageField(upload_to='kurs/',
+                              validators=[
+                                  FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png'])])
+    description = models.TextField()
+
+    def __str__(self):
+        return self.title
+
+    @property
+    def image_path(self):
+        return self.photo.path

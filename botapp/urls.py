@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import AboutMeView, ResumeView, ContactView, CourseView, CourseListView, ResumeListView, CourseFileView, \
-    CourseFileDetailView
+    CourseFileDetailView, AboutCourseView
 
 urlpatterns = [
     path('about/', AboutMeView.as_view(), name='about'),
@@ -11,4 +11,5 @@ urlpatterns = [
     path('course/<str:name>', CourseView.as_view(), name='course'),
     path('course_file/<str:name>', CourseFileView.as_view(), name='course_file'),
     path('course_file_det/<str:name>', CourseFileDetailView.as_view(), name='course_file_detail'),
+    path('about_course/', AboutCourseView.as_view(), name='about_course'),
 ]

@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import AboutMeModel, ResumeModel, ContactModel, CourseModel, CourseFileModel, CourseListModel
+from .models import AboutMeModel, ResumeModel, ContactModel, CourseModel, CourseFileModel, CourseListModel, \
+    ContactListModel, AboutCourseModel
 
 
 class AboutMeModelSerializer(serializers.ModelSerializer):
@@ -25,10 +26,18 @@ class ResumeSerializer(serializers.ModelSerializer):
     name = ResumeListSerializer()
 
 
+class ContactListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ContactListModel
+        fields = ('name', 'link', 'confirm')
+
+
 class ContactSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContactModel
-        fields = '__all__'
+        fields = ('name', 'links')
+
+    links = ContactListSerializer(many=True)
 
 
 class CourseListSerializer(serializers.ModelSerializer):
@@ -53,3 +62,11 @@ class CourseFileSerializer(serializers.ModelSerializer):
 
     file = serializers.CharField(source='file_path')
     name = CourseListSerializer()
+
+
+class AboutCourseModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AboutCourseModel
+        fields = ('title', 'photo', 'description')
+
+    photo = serializers.CharField(source='image_path')
