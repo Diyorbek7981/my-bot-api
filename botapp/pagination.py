@@ -3,7 +3,7 @@ from rest_framework.response import Response
 
 
 class CustomPageNumberPagination(PageNumberPagination):
-    page_size = 2  # 1 sahifada 3 ta obyekt keladi
+    page_size = 5  # 1 sahifada 3 ta obyekt keladi
     page_size_query_param = 'page_size'
     max_page_size = 100
 
