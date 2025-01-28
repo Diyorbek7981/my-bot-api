@@ -3,11 +3,11 @@ from rest_framework.response import Response
 
 
 class CustomPageNumberPagination(PageNumberPagination):
-    page_size = 5  # 1 sahifada 3 ta obyekt keladi
+    page_size = 5
     page_size_query_param = 'page_size'
     max_page_size = 100
 
-    def get_paginated_response(self, data):  # Bu response korinishi
+    def get_paginated_response(self, data):  
         return Response(
             {
                 "next": self.get_next_link(),
