@@ -2,4 +2,3 @@ venv
 .idea
 .env
 static
-db.sqlite3
