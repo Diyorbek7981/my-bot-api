@@ -112,3 +112,26 @@ class AboutCourseModel(BaseModel):
     @property
     def image_path(self):
         return self.photo.path
+
+
+# /////////////////////////////////////// Registration
+
+class BaseModel(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+
+class Users(BaseModel):
+    name = models.CharField(max_length=100)
+    username = models.CharField(max_length=100)
+    age = models.CharField(max_length=100)
+    course_type = models.CharField(max_length=100)
+    phone = models.CharField(max_length=100)
+    telegram_id = models.CharField(max_length=100)
+    message = models.CharField(max_length=300)
+
+    def __str__(self):
+        return f"{self.name} ({self.username})"

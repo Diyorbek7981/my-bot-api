@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import AboutMeModel, ResumeModel, ContactModel, CourseModel, CourseFileModel, CourseListModel, \
-    ContactListModel, AboutCourseModel
+    ContactListModel, AboutCourseModel, Users
 
 
 class AboutMeModelSerializer(serializers.ModelSerializer):
@@ -70,3 +70,9 @@ class AboutCourseModelSerializer(serializers.ModelSerializer):
         fields = ('title', 'photo', 'description')
 
     photo = serializers.CharField(source='image_path')
+
+
+class UsersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Users
+        fields = ('id', 'name', 'username', 'age', 'course_type', 'phone', 'telegram_id','message')

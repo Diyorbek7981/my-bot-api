@@ -1,10 +1,13 @@
 from django.shortcuts import render
 from .models import AboutMeModel, ResumeModel, ContactModel, CourseModel, CourseFileModel, CourseListModel, \
-    ResumeListModel, AboutCourseModel
+    ResumeListModel, AboutCourseModel, Users
 from .serializers import AboutMeModelSerializer, ResumeSerializer, ContactSerializer, CourseFileSerializer, \
-    CourseListSerializer, CourseSerializer, ResumeListSerializer, AboutCourseModelSerializer
+    CourseListSerializer, CourseSerializer, ResumeListSerializer, AboutCourseModelSerializer, UsersSerializer
 from rest_framework import generics, permissions
 from .pagination import CustomPageNumberPagination
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 
 
 # Create your views here.
@@ -70,3 +73,27 @@ class AboutCourseView(generics.ListAPIView):
     queryset = AboutCourseModel.objects.all()
     serializer_class = AboutCourseModelSerializer
     permission_classes = [permissions.AllowAny]
+
+
+class UsersView(generics.ListAPIView):
+    queryset = Users.objects.all()
+    serializer_class = UsersSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class CreateUserView(generics.CreateAPIView):
+    queryset = Users.objects.all()
+    serializer_class = UsersSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class UserGetView(APIView):
+    def get(self, request, telegram_id, format=None):
+        try:
+            user = Users.objects.filter(telegram_id=telegram_id).first()
+        except Users.DoesNotExist:
+            return Response({"detail": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        # Serialize the user data and return it in the response
+        serializer = UsersSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
